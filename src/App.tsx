@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useGameStore } from './store/gameStore'
 
@@ -24,9 +24,17 @@ function App() {
     resume,
     resetStats,
   } = useGameStore()
+
+  // Setup screen state
+  const [setup, setSetup] = useState(true)
+  const [playerName, setPlayerName] = useState('Player1')
+  const [botName, setBotName] = useState('Player2')
+  const [playerColor, setPlayerColor] = useState('#22c55e') // Tailwind green-500
+  const [botColor, setBotColor] = useState('#3b82f6') // Tailwind blue-500
   const intervalRef = useRef<number | null>(null)
 
   useEffect(() => {
+    if (setup) return
     const handleKey = (e: KeyboardEvent) => {
       // Player controls
       if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W')
@@ -50,9 +58,18 @@ function App() {
     }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
-  }, [setPlayerDirection, setBotDirection, restart, pause, resume, isPaused])
+  }, [
+    setPlayerDirection,
+    setBotDirection,
+    restart,
+    pause,
+    resume,
+    isPaused,
+    setup,
+  ])
 
   useEffect(() => {
+    if (setup) return
     if (isGameOver || isPaused) {
       if (intervalRef.current) clearInterval(intervalRef.current)
       return
@@ -61,22 +78,76 @@ function App() {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current)
     }
-  }, [moveSnakes, isGameOver, isPaused])
+  }, [moveSnakes, isGameOver, isPaused, setup])
+
+  if (setup) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+        <h1 className="text-3xl font-bold mb-8">Snappy Snake - Setup</h1>
+        <div className="flex gap-12 mb-8">
+          <div className="flex flex-col items-center">
+            <label className="mb-2 font-bold">Player 1 Name</label>
+            <input
+              className="px-3 py-1 border-2  rounded text-white mb-2"
+              value={playerName}
+              onChange={(e) => setPlayerName(e.target.value)}
+              maxLength={12}
+            />
+            <label className="mb-2 font-bold">Color</label>
+            <input
+              type="color"
+              value={playerColor}
+              onChange={(e) => setPlayerColor(e.target.value)}
+              className="w-12 h-12 rounded-full border-2 border-gray-400"
+            />
+          </div>
+          <div className="flex flex-col items-center">
+            <label className="mb-2 font-bold">Player 2 Name</label>
+            <input
+              className="px-3 py-1 border-2 rounded text-white mb-2"
+              value={botName}
+              onChange={(e) => setBotName(e.target.value)}
+              maxLength={12}
+            />
+            <label className="mb-2 font-bold">Color</label>
+            <input
+              type="color"
+              value={botColor}
+              onChange={(e) => setBotColor(e.target.value)}
+              className="w-12 h-12 rounded-full border-2 border-gray-400"
+            />
+          </div>
+        </div>
+        <button
+          className="px-6 py-2 cursor-pointer rounded bg-green-600 hover:bg-green-700 text-white text-xl font-bold"
+          onClick={() => setSetup(false)}
+        >
+          Start Game
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
       <h1 className="text-3xl font-bold mb-4">Snappy Snake</h1>
       <div className="mb-5 text-2xl">
-        Player1 Score: {player.score} | Player2 Score: {bot.score}
+        {playerName} Score: {player.score} | {botName} Score: {bot.score}
       </div>
       <div className="mb-3 text-lg flex gap-8">
         <div>
-          <span className="font-bold text-green-400">Player1</span> <br />
+          <span className="font-bold" style={{ color: playerColor }}>
+            {playerName}
+          </span>{' '}
+          <br />
           Win: <span className="text-green-300">{playerWins}</span> / Loss:{' '}
           <span className="text-red-400">{playerLosses}</span>
         </div>
         <div>
-          <span className="font-bold text-blue-400">Player2</span> <br />
+          <span className="font-bold" style={{ color: botColor }}>
+            {botName}
+          </span>{' '}
+          <br />
           Win: <span className="text-green-300">{botWins}</span> / Loss:{' '}
           <span className="text-red-400">{botLosses}</span>
         </div>
@@ -109,15 +180,23 @@ function App() {
           const isFood = food.some((f) => f.x === x && f.y === y)
           let cellClass = 'bg-gray-900'
           if (isFood) cellClass = 'bg-red-500'
-          else if (isPlayerHead) cellClass = 'bg-green-400'
-          else if (isPlayer) cellClass = 'bg-green-700'
-          else if (isBotHead) cellClass = 'bg-blue-400'
-          else if (isBot) cellClass = 'bg-blue-700'
+          else if (isPlayerHead) cellClass = ''
+          else if (isPlayer) cellClass = ''
+          else if (isBotHead) cellClass = ''
+          else if (isBot) cellClass = ''
+          // Custom color rendering
+          const style: any = { aspectRatio: '1' }
+          if (isPlayerHead) style.background = playerColor
+          else if (isPlayer) style.background = playerColor + '99'
+          else if (isBotHead) style.background = botColor
+          else if (isBot) style.background = botColor + '99'
+          else if (isFood) style.background = '#ef4444'
+          else style.background = '#1f2937'
           return (
             <div
               key={idx}
               className={`border border-gray-700 w-full h-full ${cellClass}`}
-              style={{ aspectRatio: '1' }}
+              style={style}
             />
           )
         })}
