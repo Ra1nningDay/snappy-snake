@@ -52,19 +52,19 @@ function App() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <h1 className="text-3xl font-bold mb-2">Snappy Snake</h1>
-      <div className="mb-1">
-        Score: {score}{' '}
-        <span className="ml-4 text-yellow-400">High Score: {highScore}</span>
-      </div>
-      <div className="mb-2 flex gap-2">
+      <h1 className="text-3xl font-bold mb-4">Snappy Snake</h1>
+      <div className="mb-5 text-2xl">Score: {score} </div>
+      <span className=" text-yellow-400 mb-7 text-2xl">
+        High Score: {highScore}
+      </span>
+      {/* <div className="mb-4 flex gap-2">
         <button
           className="px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white"
           onClick={() => (isPaused ? resume() : pause())}
         >
           {isPaused ? 'Resume' : 'Pause'}
         </button>
-      </div>
+      </div> */}
       <div
         className="grid bg-gray-800 p-2 rounded"
         style={{
@@ -95,7 +95,7 @@ function App() {
         </div>
       )}
       {isPaused && !isGameOver && (
-        <div className="mt-4 text-xl text-blue-400">Paused</div>
+        <div className="text-xl text-blue-400 absolute">Paused</div>
       )}
     </div>
   )

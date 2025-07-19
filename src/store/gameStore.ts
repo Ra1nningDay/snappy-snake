@@ -48,16 +48,9 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (direction === 'DOWN') head.y += 1
     if (direction === 'LEFT') head.x -= 1
     if (direction === 'RIGHT') head.x += 1
-    // Check wall collision
-    if (
-      head.x < 0 ||
-      head.x >= GRID_SIZE ||
-      head.y < 0 ||
-      head.y >= GRID_SIZE
-    ) {
-      set({ isGameOver: true })
-      return
-    }
+    // Wrap around logic
+    head.x = (head.x + GRID_SIZE) % GRID_SIZE
+    head.y = (head.y + GRID_SIZE) % GRID_SIZE
     // Check self collision
     if (snake.some((seg) => seg.x === head.x && seg.y === head.y)) {
       set({ isGameOver: true })
