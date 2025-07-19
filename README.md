@@ -8,13 +8,17 @@ Snappy Snake is a modern, blazing-fast remake of the classic Snake game — buil
 
 ## 🚀 Features
 
-- 🎮 Smooth gameplay loop with keyboard input
-- 📱 Fully responsive layout (mobile-friendly)
+- 🎮 Two-player competitive mode (Player vs Bot/Player)
+- 🎨 Custom name and color selection for each player before game start
+- 📊 Win/Loss statistics tracking for both sides (with reset button)
 - 🌀 Global state management via Zustand
 - ⚡ Styled with Tailwind CSS
 - 🧠 Clean and modular React components
 - 💾 Local high score saving (via `localStorage`)
+- 🍎 Multiple food items on the board
 - 🧪 Easy to extend — add power-ups, skins, themes
+- 🎬 Dark Souls-style animated "YOU DIED" game over screen (framer-motion)
+- 📱 Fully responsive layout (mobile-friendly)
 
 ---
 
@@ -25,6 +29,7 @@ Snappy Snake is a modern, blazing-fast remake of the classic Snake game — buil
 - [Zustand](https://github.com/pmndrs/zustand)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [TypeScript](https://www.typescriptlang.org/)
+- [framer-motion](https://www.framer.com/motion/)
 
 ---
 
@@ -46,13 +51,13 @@ cd snappy-snake
 ### 2. Install dependencies
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### 3. Start the development server
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ---
@@ -67,6 +72,22 @@ npm run dev
 | Move Right   | → / D            |
 | Pause/Resume | Spacebar         |
 | Restart      | R (on game over) |
+
+---
+
+## 🧑‍🎨 Player Setup
+
+- On first load, choose name and color for both Player1 and Player2 (Bot)
+- Colors and names are used in-game and in stats
+
+---
+
+## 📊 Stats & Features
+
+- Win/Loss stats for each player (resettable)
+- High score saved locally
+- Multiple food items on board
+- Animated game over (Dark Souls style)
 
 ---
 
@@ -90,5 +111,6 @@ npm run dev
 - Power-ups and obstacles
 - Global leaderboard with Firebase or Supabase
 - Multiplayer mode (WebSocket-based)
+- LLM-powered bot (API integration)
 
 ---

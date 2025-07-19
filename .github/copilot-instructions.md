@@ -1,56 +1,56 @@
 # Copilot Instructions for Snappy Snake
 
-## Project Overview
+## 🏗️ Architecture Overview
 
-- Snappy Snake is a modern Snake game built with React, Zustand (state), Tailwind CSS (styling), and Vite (build).
-- The codebase is modular: UI in `/src/components`, state in `/src/store`, hooks in `/src/hooks`, utilities in `/src/utils`.
-- Game logic (movement, collision, score) is handled via custom hooks and utility functions.
-- State is managed globally with Zustand; high scores are persisted in `localStorage`.
+- **React** (Vite) SPA with modular components
+- **Zustand** for global state (game, player/bot, stats)
+- **Tailwind CSS** for styling
+- **framer-motion** for UI/game over animation
+- Game logic in Zustand store (`src/store/gameStore.ts`)
+- Player/bot setup (name, color) before game start
+- Win/loss stats and high score saved in localStorage
+- Multiple food items supported
 
-## Developer Workflows
+## 🧑‍💻 Workflows
 
-- **Install:** `npm install` (or `pnpm install`)
-- **Start Dev Server:** `npm run dev` (or `pnpm dev`)
-- **Build:** `npm run build` (or `pnpm build`)
-- **Test:** `npm test` (Vitest)
-- **Lint/Format:** `npm run lint`, `npm run format`, `npm run check`
+- Game starts with a setup screen for name/color selection
+- Main game loop runs via interval in `App.tsx`, calls `moveSnakes` in store
+- Keyboard controls for player, optional bot controls for testing
+- Game over triggers animated overlay (Dark Souls style)
+- Stats and high score persist across sessions
+- Reset stats button available in UI
 
-## Key Architectural Patterns
+## 📝 Conventions
 
-- **Component Structure:** UI is split into small, reusable components in `/src/components`.
-- **State Management:** All game state (snake position, direction, score, etc.) is managed in Zustand store (`/src/store`).
-- **Hooks:** Game loop and snake logic are implemented as custom hooks (`useGameLoop`, `useSnake` in `/src/hooks`).
-- **Styling:** Tailwind CSS is used for all styling; utility classes are preferred over custom CSS.
-- **Assets:** Images, icons, and sounds (if any) are placed in `/src/assets`.
+- Use Zustand for all game state and mutations
+- Use Tailwind for all styling (no CSS files)
+- Use functional React components
+- Use TypeScript for all code
+- Use framer-motion for UI transitions/animations
+- All new features should be modular and easy to extend
+- Store player/bot names and colors in local state (can be extended to persist)
+- All UI text and labels should be easy to localize
 
-## Game Controls
+## 🔗 Integration Points
 
-- Arrow keys or WASD for movement
-- Spacebar to pause/resume
-- R to restart (on game over)
+- To add LLM-powered bot, integrate API call in store before bot moves
+- To add new features (power-ups, themes, multiplayer), create new Zustand state/actions and modular components
+- For mobile/touch support, add event listeners and UI controls
 
-## Conventions & Patterns
+## 🛡️ Testing & Quality
 
-- Prefer functional React components and hooks.
-- Keep UI logic in components, game logic in hooks/utilities, and state in store.
-- Use Tailwind classes for layout and style.
-- Extend the game by adding new components, hooks, or store properties.
+- Use Vitest for unit tests (if adding new logic)
+- Use ESLint/Prettier for code style
+- All new code should be type-safe and follow project conventions
 
-## Integration Points
+## 🚦 Quick Reference
 
-- No backend; all logic is client-side. High scores use browser `localStorage`.
-- For leaderboard/multiplayer, see roadmap for Firebase/Supabase/WebSocket integration.
-
-## Example Files
-
-- `/src/components/Header.tsx` — UI example
-- `/src/hooks/useSnake.ts` — game logic example
-- `/src/store/gameStore.ts` — state example
-
-## Roadmap
-
-- Touch controls, themes, power-ups, online leaderboard, multiplayer (see README)
+- Main game logic: `src/store/gameStore.ts`
+- Main UI: `src/App.tsx`
+- Player/bot setup: local state in `App.tsx`
+- Stats/high score: localStorage
+- UI: Tailwind + framer-motion
 
 ---
 
-For more details, see `README.md` and code comments in each module.
+> For all AI coding agents: Follow the above architecture, workflows, and conventions. Keep code modular, readable, and easy to extend. Document new features in README and update this file as needed.
