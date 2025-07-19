@@ -1,0 +1,28 @@
+{
+  "servers": {
+    "git": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "--mount",
+        "type=bind,src=${workspaceFolder},dst=/workspace",
+        "mcp/git"
+      ]
+    },
+    "eslint": {
+      "command": "npx",
+      "args": ["@eslint/mcp@latest"],
+      "env": {}
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    }
+  }
+}
